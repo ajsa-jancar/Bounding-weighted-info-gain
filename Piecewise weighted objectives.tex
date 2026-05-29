@@ -1,0 +1,233 @@
+\section{Second attempt: piecewise weighted objectives} 
+
+A second approach was to define a weighted objective at the level of disjoint regions. 
+
+\subsection{A weighted sum of regional objectives}
+
+We proceed as follows: let $\X$ be a domain and $A_1, \ldots A_m$ a partition of $\X$ so that
+\begin{equation*}
+\X=\bigcup_{i=1}^m A_i,
+\qquad
+A_i \cap A_j = \emptyset \quad \text{for} \quad i \neq j.
+\end{equation*}
+We consider a piecewise constant weighting function:
+\begin{equation*}
+w(x)=\sum_{i=1}^m c_i\mathbf{1}_{A_i}(x).
+\end{equation*}
+One may then define the weighted objective on a queried set $S \subseteq \X$ by
+\begin{equation*}
+F_w(S)
+=
+\sum_{i=1}^m
+c_i\,I(f_{A_i};y_S) = \sum_{i=1}^m
+c_i F_{A_i}(S).
+\end{equation*}
+
+\subsection{Submodularity of the regional objective}
+
+We claim that $F_w(\cdot)$ defined this way is a submodular setfunction. Indeed, if we consider subsets $A \subseteq B \subseteq \X$, $x \notin B$ and define the marginal gain $\Delta_w(x \mid \cdot) := F_w(\cdot \cup \{x\}) - F_w(\cdot)$, then
+\begin{align*}
+    \Delta_w(x \mid \cdot) &= \sum_{i=1}^m c_i \left( I(f_{A_i}; y_{\; \cdot \; \cup \{x\}}) - I(f_{A_i}; y_{\; \cdot \;}) \right) \\
+    &= \sum_{i=1}^m c_i \Delta_i(x \mid \cdot) \\
+    &= \sum_{i=1}^m c_i \left(F_{A_i}(\cdot \cup \{x\}) - F_{A_i}(\cdot)\right).
+\end{align*}
+Now since each $F_{A_i}$ is submodular, for every $I$, when $A\subseteq B$, $\Delta_i(x \mid A) \geq \Delta_i(x \mid B)$ so that 
+\begin{equation*}
+    \Delta_w(x \mid A) = \sum_i c_i \Delta_i(x \mid A) \geq \sum_i c_i \Delta_i(x \mid B) = \Delta_w(x \mid B).
+\end{equation*}
+Thus, the entire objective remains submodular and greedy selection inherits the usual approximation guarantee
+\begin{equation*}
+F_w(S_{\mathrm{greedy}})
+\geq
+(1-e^{-1})
+\max_{|S|\leq T}
+F_w(S).
+\end{equation*}
+We have shown the following proposition:
+\begin{proposition} \label{prop: submodularobj}
+    Let $w(x)=\sum_{i=1}^m c_i\mathbf{1}_{A_i}(x)$ with $c_i \geq 0$ and define 
+    $$F_w(S)=
+    \sum_{i=1}^m
+    c_i\,I(f_{A_i};y_S).$$ 
+    If each $S \to I(f_{A_i}; y_S)$ is submodular, then $F_w$ is submodular.
+\end{proposition}
+
+\subsection{Why this doesn't work for our weighted objective}
+The objective defined above differs from the original sequential weighted information gain: instead of weighting the marginal gains directly, it weights independent transductive objectives over different regions. This is illustrated below.
+
+Recall our objective
+\begin{equation*}
+F(S)
+= \frac{1}{2}
+\sum_{n=1}^{|S|}
+\log\!\left(
+1+w(x_n)^2\,\sigma_{n-1}^2(x_n).
+\right)
+\end{equation*}
+If we introduce piecewise weights as above, this becomes
+\begin{equation*}
+F(S)
+= \frac{1}{2}
+\sum_n
+\log\!\left(
+1+c_{\mathrm{region}(z_n)}^2
+\cdot
+\sigma_{n-1}^2(x_n)
+\right),
+\end{equation*}
+where $\sigma_{n-1}^2(x_n)$
+depends on all previously selected points across all regions.
+Even if we force a decomposition by region,
+\begin{equation*}
+F(S)
+= \frac{1}{2}
+\sum_i
+\sum_{x_n \in A_i}
+\log\!\left(
+1+c_i^2
+\sigma_{n-1}^2(x_n)
+\right),
+\end{equation*}
+this is still not a function only of the set, because
+$\sigma_{n-1}^2(z_n)$
+depends on which points were chosen earlier and in which order, including points from other regions.
+
+The proposition requires weights to act on independent components of the objective; in our objective, the weights instead act on sequential updates coupled through the GP posterior. This motivates the idea in Section \ref{sec: indepregions}.
+
+\subsection{A possible solution: regional transductive objective} \label{sec: transobjective}
+
+A natural way to recover submodularity is to move the weighting from the sequential marginal gains to the transductive objectives themselves. Suppose the domain is partitioned into disjoint regions
+\begin{equation*}
+A_1,\dots,A_m \subseteq \mathcal{X}.
+\end{equation*}
+Rather than weighting posterior variance updates directly, we instead define a weighted sum of regional information gains. The resulting objective takes the form
+\begin{equation} \label{eq: regionaltransductiveobj}
+F_w(S)
+=
+\sum_{i=1}^m
+c_i\, I(f_{A_i};y_S),
+\end{equation}
+where
+\begin{equation*}
+I(f_{A_i};y_S)
+=
+H(f_{A_i})
+-
+H(f_{A_i}\mid y_S)
+=
+\frac12
+\log\!\left(
+\frac{\det K_{A_i,A_i}}
+{\det K_{A_i,A_i\mid S}}
+\right)
+\end{equation*}
+and
+\begin{equation*}
+K_{A_i,A_i\mid S}
+=
+K_{A_i,A_i}
+-
+K_{A_i,S}
+\left(
+K_{S,S}+\sigma^2 I
+\right)^{-1}
+K_{S,A_i}.
+\end{equation*}
+This formulation replaces the sequential variance-weighted updates with a weighted sum of regional transductive information gains, where each term measures the information gained about a fixed target region $A_i$ and the coefficients $c_i$ determine their relative importance. Since mutual information is submodular as a function of the observation set $S$, by Proposition \ref{prop: submodularobj}, the resulting objective inherits the standard greedy approximation guarantees. 
+
+Conceptually, the key distinction between this objective and the original weighted sequential information gain is that in \eqref{eq: regionaltransductiveobj}, the weights act on the target of the information gain rather than on the locations from which observations are collected. Since mutual information is symmetric, the weighted objective remains a nonnegative combination of mutual information quantities, and the submodular structure is preserved. By contrast, in the original sequential weighted objective, the weights act directly on the individual variance reductions according to where the observations are taken from, introducing order dependence and breaking the symmetry.
+
+Although this objective is not equivalent to the original weighted sequential information gain, the regional structure introduced here will later motivate the decomposition bound derived in Section \ref{sec: splitbound}.
+\subsection{Extending to continuous weighting}
+
+The piecewise-constant formulation in \eqref{eq: regionaltransductiveobj} suggests a possible route toward continuous weighting functions. Informally, one may approximate a continuous weight function by increasingly fine partitions of the domain and consider the corresponding weighted regional transductive objectives. In the limit, one might hope to recover a continuum version of the weighted information gain.
+
+Heuristically, if the regions shrink to points, the regional mutual information terms should converge to local information quantities, leading formally to an objective of the form
+\begin{equation*}
+\int
+w(x)\,
+I(f(x);y_S)\,
+d\mu(x).
+\end{equation*}
+
+For Gaussian processes,
+\begin{equation*}
+I(f(x);y_S)
+=
+\frac12
+\log\!\left(
+1+\frac{\sigma_S^2(x)}{\sigma^2}
+\right),
+\end{equation*}
+so this becomes
+\begin{equation*}
+\frac12
+\int
+w(x)
+\log\!\left(
+1+\frac{\sigma_S^2(x)}{\sigma^2}
+\right)
+d\mu(x),
+\end{equation*}
+which may be interpreted as a weighted integrated information density over the domain.
+
+Moreover, in the small-variance regime,
+\begin{equation*}
+\log(1+t)\approx t,
+\end{equation*}
+giving the approximation
+\begin{equation*}
+\frac12
+\int
+w(x)
+\log\!\left(
+1+\frac{\sigma_S^2(x)}{\sigma^2}
+\right)
+d\mu(x)
+\approx
+\frac1{2\sigma^2}
+\int
+w(x)\sigma_S^2(x)\,d\mu(x),
+\end{equation*}
+which resembles a weighted integrated posterior variance criterion commonly appearing in Bayesian experimental design and active learning.
+
+However, there is an important structural distinction. The finite-dimensional piecewise objective
+\begin{equation*}
+F_w(S)
+=
+\sum_i
+c_i I(f_{A_i};y_S)
+\end{equation*}
+inherits submodularity from mutual information, and therefore retains the usual greedy approximation guarantees. By contrast, integrated variance objectives are not naturally submodular and do not generally admit the same diminishing returns structure.
+Thus, while the continuum limit formally resembles an integrated variance functional, it is not clear whether the submodular structure survives after passing to the limit.
+
+A more detailed heuristic approximation argument is deferred to Appendix~\ref{appendix:continuum}.
+
+\subsection{Special case: independent regions} \label{sec: indepregions}
+
+The regional transductive formulation \eqref{eq: regionaltransductiveobj} becomes particularly natural in the case where different regions are independent under the kernel. In this setting, observations from one region do not influence uncertainty in another, so the regional objectives decouple completely.
+
+If distinct regions are independent under the kernel, namely
+\begin{equation*}
+k(x,x')=0
+\qquad
+\text{for } x\in A_i,\ x'\in A_j,\ i\neq j,
+\end{equation*}
+then the information gain decomposes additively:
+\begin{equation*}
+I(f_A;y_X)
+=
+\sum_{i=1}^m
+I(f_{A_i};y_{X\cap A_i}).
+\end{equation*}
+In this case,
+\begin{equation*}
+F_w(S)
+=
+\sum_{i=1}^m
+c_i
+I(f_{A_i};y_{S\cap A_i}),
+\end{equation*}
+and the optimisation problem separates exactly across regions.
+
+Although unrealistic in general, this illustrates the mechanism underlying the regional decomposition. In the independent case, the weighted objective separates exactly across regions. In the general correlated setting, this exact decomposition fails due to coupling through the GP, but the same intuition still leads to a useful upper bound on the original weighted information gain. We see this in the next section.

@@ -1,0 +1,284 @@
+\section{Split bound} \label{sec: splitbound}
+
+Motivated by the regional decomposition ideas in sections \ref{sec: transobjective} and \ref{sec: indepregions}, we now return to the original sequential weighted information gain objective. Even without independence between regions, the same regional structure can still be exploited to derive an upper bound. The key observation is that posterior variance can only decrease when conditioning on additional observations. Consequently, the contribution from points inside a given region can be bounded by considering only the subsequence of points lying in that region.
+
+This leads to a decomposition of the weighted objective into regional information gain terms with rescaled effective noise variances. Intuitively, larger weights correspond to smaller effective noise levels, and therefore to larger regional information gains.
+
+\subsection{Statement of the split bound}
+
+\begin{proposition}[Split bound for piecewise constant weights] \label{prop: splitbound}
+Let $\mathcal{X}=\bigcup_{i=1}^m A_i$ be a disjoint partition, and let
+\begin{equation*}
+w(x)
+=
+\sum_{i=1}^m
+c_i\mathbf{1}_{A_i}(x).
+\end{equation*}
+Then the weighted information gain satisfies
+\begin{equation*}
+\Gamma_T^w
+\leq
+\max_{T_1+\cdots+T_m=T}
+\sum_{i=1}^m
+\Gamma_{A_i}^{\mathrm{unweighted}}
+\left(
+T_i;\frac{\sigma^2}{c_i^2}
+\right),
+\end{equation*}
+where $\Gamma_{A_i}^{\mathrm{unweighted}}(T_i;\sigma^2/c_i^2)$ denotes the ordinary information gain restricted to $A_i$ with effective noise variance $\sigma^2/c_i^2$.
+\end{proposition}
+
+\begin{remark}[Effective noise interpretation]
+The split bound may be interpreted as decomposing the weighted information gain into regional information gain problems with rescaled noise levels. Larger weights correspond to smaller effective noise variances and therefore larger regional information gains.
+\end{remark}
+
+\subsection{Proof in the two-region case}
+
+\begin{proof}[Proof of Proposition \ref{prop: splitbound}, two-region case]
+We first prove the claim in the simple case where the ambient space is partitioned into two regions. Let
+\begin{equation*}
+w(z)
+=
+a\,\mathbf{1}_A(z)
++
+b\,\mathbf{1}_B(z),
+\end{equation*}
+where
+\begin{equation*}
+A\cap B=\varnothing,
+\qquad
+A\cup B=\mathcal{X}.
+\end{equation*}
+Define
+\begin{equation*}
+\Gamma_A(N;a)
+:= \frac{1}{2}
+\max_{x_1,\dots,x_N\in A}
+\sum_{j=1}^N
+\log\!\left(
+1+
+\frac{a^2}{\sigma^2}
+\tilde{\sigma}_{j-1,A}^2(x_j)
+\right),
+\end{equation*}
+where $\tilde{\sigma}_{j-1,A}^2(x)$ denotes the posterior variance obtained by conditioning only on the previously selected points lying in $A$ (rather than on the full observation sequence)
+and similarly
+\begin{equation*}
+\Gamma_B(N;b)
+:= \frac{1}{2}
+\max_{x_1,\dots,x_N\in B}
+\sum_{j=1}^N
+\log\!\left(
+1+
+\frac{b^2}{\sigma^2}
+\tilde{\sigma}_{j-1,B}^2(x_j)
+\right).
+\end{equation*}
+Take a sequence $z_1,\dots,z_N,$
+and suppose there are $m$ points in $A$ and $N-m$ points in $B$.
+Write the $A$-subsequence as $z_{t_1},\dots,z_{t_m}$
+in order of appearance in the full sequence. Then its contribution is
+\begin{equation*}
+\sum_{j=1}^m
+\log\!\left(
+1+
+\frac{a^2}{\sigma^2}
+\tilde{\sigma}_{t_j-1,\mathcal{X}}^2(z_{t_j})
+\right).
+\end{equation*}
+Now since $\tilde{\sigma}_{t_j-1,\mathcal{X}}^2(z_{t_j})
+\leq
+\tilde{\sigma}_{j-1,A}^2(z_{t_j}),$
+(as conditioning on additional points can only reduce posterior variance),
+\begin{equation*} \frac{1}{2}
+\sum_{j=1}^m
+\log\!\left(
+1+
+\frac{a^2}{\sigma^2}
+\tilde{\sigma}_{t_j-1,\mathcal{X}}^2(z_{t_j})
+\right)
+\leq \frac{1}{2}
+\sum_{j=1}^m
+\log\!\left(
+1+
+\frac{a^2}{\sigma^2}
+\tilde{\sigma}_{j-1,A}^2(z_{t_j})
+\right)
+\leq
+\Gamma_A(m;a).
+\end{equation*}
+The same argument applies to the $B$-subsequence, giving
+\begin{equation*}
+\Gamma_N(w,k)
+\leq
+\Gamma_A(m;a)
++
+\Gamma_B(N-m;b).
+\end{equation*}
+Taking the maximum over all allocations $m$ yields
+\begin{equation*}
+\Gamma_N(w,k)
+\leq
+\max_{m=0,\dots,N}
+\left\{
+\Gamma_A(m;a)
++
+\Gamma_B(N-m;b)
+\right\}.
+\end{equation*}
+Now observe that
+\begin{equation*}
+\Gamma_A(m;a)
+=
+\Gamma_A^{\mathrm{unweighted}}
+\!\left(
+m;
+\left(\frac{\sigma}{a}\right)^2
+\right),
+\end{equation*}
+corresponding to ordinary information gain on $A$ with effective noise variance
+$\sigma_A^2
+=
+\frac{\sigma^2}{a^2}.$
+Similarly,
+\begin{equation*}
+\Gamma_B(N-m;b)
+=
+\Gamma_B^{\mathrm{unweighted}}
+\!\left(
+N-m;
+\left(\frac{\sigma}{b}\right)^2
+\right).
+\end{equation*}
+Hence
+\begin{equation*}
+\Gamma_N(w,k)
+\leq
+\max_{m=0,\dots,N}
+\left\{
+\Gamma_A^{\mathrm{unweighted}}
+\!\left(
+m;
+\left(\frac{\sigma}{a}\right)^2
+\right)
++
+\Gamma_B^{\mathrm{unweighted}}
+\!\left(
+N-m;
+\left(\frac{\sigma}{b}\right)^2
+\right)
+\right\}.
+\end{equation*}
+Equivalently, in log-determinant form,
+\begin{equation*}
+\Gamma_A^{\mathrm{unweighted}}
+\!\left(
+m;
+\left(\frac{\sigma}{a}\right)^2
+\right)
+= \frac{1}{2}
+\max_{S\subseteq A,\ |S|=m}
+\log\det
+\left(
+I+\sigma_A^{-2}K_{S,S}
+\right),
+\end{equation*}
+so that
+\begin{equation*}
+\Gamma_N(w,k)
+\leq \frac{1}{2}
+\max_{m=0,\dots,N}
+\Bigg\{
+\max_{S\subseteq A,\ |S|=m}
+\log\det
+\left(
+I+\left(\frac{\sigma}{a}\right)^{-2}
+K_{S,S}
+\right)
+\end{equation*}
+
+\begin{equation*}
+\qquad\qquad
++
+\max_{Y\subseteq B,\ |Y|=N-m}
+\log\det
+\left(
+I+\left(\frac{\sigma}{b}\right)^{-2}
+K_{Y,Y}
+\right)
+\Bigg\}.
+\end{equation*}
+\end{proof}
+
+\subsection{Extension to finitely many regions}
+\begin{proof}[Proof of Proposition \ref{prop: splitbound}, general case]
+The same argument extends to finitely many disjoint regions. Let
+\begin{equation*}
+\mathcal{X}
+=
+\bigcup_{i=1}^m A_i,
+\qquad
+A_i\cap A_j=\varnothing
+\quad
+(i\neq j),
+\end{equation*}
+and define
+\begin{equation*}
+w(x)
+=
+\sum_{i=1}^m
+c_i\mathbf{1}_{A_i}(x).
+\end{equation*}
+If $T_i$ denotes the number of sampled points in region $A_i$, with $T_1+\cdots+T_m=T,$
+then applying the subsequence argument region-by-region gives
+\begin{equation*}
+\Gamma_T^w
+\leq
+\max_{T_1+\cdots+T_m=T}
+\sum_{i=1}^m
+\Gamma_{A_i}^{\mathrm{unweighted}}
+\left(
+T_i;\frac{\sigma^2}{c_i^2}
+\right).
+\end{equation*}
+Equivalently, each region behaves like an independent information gain problem with effective noise level
+$
+\sigma_i^2
+=
+\frac{\sigma^2}{c_i^2}.$
+\end{proof}
+
+Unlike the exact decomposition in the independent-region setting, this bound remains valid even when correlations between regions are present. In the independent-region setting of Section \ref{sec: indepregions}, the inequalities above become equalities, since observations outside a region no longer affect the posterior variances within it.
+
+
+\subsection{Comparison with the crude bound}
+
+The crude bound corresponds to replacing the weight function by its maximum value everywhere. If $a\geq b$, this gives
+\begin{equation*}
+B_{\mathrm{crude}}
+:=
+\Gamma_N^{\mathrm{unweighted}}
+\left(k;\frac{\sigma^2}{a^2}\right)
+= \frac{1}{2}
+\max_{|S|=N}
+\log\det
+\left(
+I+\frac{a^2}{\sigma^2}K_{S,S}
+\right).
+\end{equation*}
+By contrast, the split bound from Proposition \ref{prop: splitbound} keeps track of how many samples fall in each region:
+\begin{equation*}
+B_{\mathrm{split}}
+:=
+\max_{m=0,\dots,N}
+\left\{
+\Gamma_A^{\mathrm{unweighted}}
+\left(m;\frac{\sigma^2}{a^2}\right)
++
+\Gamma_B^{\mathrm{unweighted}}
+\left(N-m;\frac{\sigma^2}{b^2}\right)
+\right\}.
+\end{equation*}
+The crude bound treats the whole domain as if it had the largest weight $a$, while the split bound only applies this effective noise level inside $A$ and uses the smaller effective weight in $B$.
+
+With this decomposition, we hope to exploit geometric differences between regions. In particular, if highly weighted regions occupy smaller subsets of the domain, the associated information gain terms may decay more rapidly.

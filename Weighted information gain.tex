@@ -1,0 +1,69 @@
+\section{Weighted information gain}
+
+In the standard Gaussian process setting, the maximum information gain after $T$ observations is
+\begin{equation*}
+\Gamma_T
+= \frac{1}{2}
+\max_{x_1,\dots,x_T}
+\sum_{t=1}^T
+\log\!\left(
+1+\frac{\sigma_{t-1}^2(x_t)}{\sigma^2}
+\right),
+\end{equation*}
+where $\sigma_{t-1}^2(x_t)$ denotes the posterior variance before observing $x_t$.
+
+Motivated by the preceding discussion, we introduce the weighted sequential objective
+\begin{equation*}
+\Gamma_T^w
+= \frac{1}{2}
+\sum_{t=1}^T
+w(x_t)^2
+\log\!\left(
+1+\frac{\sigma_{t-1}^2(x_t)}{\sigma^2}
+\right).
+\end{equation*}
+
+The weights act externally on the marginal gains while leaving the Gaussian process posterior unchanged. The motivation is that if $w$ is concentrated on a sufficiently small subset of the domain, then $\Gamma_T^w$ may admit sharper bounds than the ordinary information gain.
+For example, if
+\begin{equation*}
+w(x)=c\,\mathbf{1}_A(x),
+\end{equation*}
+then
+\begin{equation*}
+\Gamma_T^w
+= \frac{c^2}{2}
+\sum_{t:\,x_t\in A}
+\log\!\left(
+1+\frac{\sigma_{t-1}^2(x_t)}{\sigma^2}
+\right),
+\end{equation*}
+which resembles a transductive information gain restricted to $A$.
+
+\subsection{Loss of submodularity for weighted objective}
+
+For ordinary information gain, the set function
+\begin{equation*}
+F(S)=I(f_S;y_S)
+\end{equation*}
+has marginal gains
+\begin{equation*}
+F(S\cup\{x\})-F(S)
+=
+\frac12
+\log\!\left(
+1+\frac{\sigma_S^2(x)}{\sigma^2}
+\right),
+\end{equation*}
+which satisfy diminishing returns. This submodularity is what allows standard greedy approximation arguments.
+
+The weighted objective does not inherit this structure. Writing formally
+\begin{equation*}
+F_w(x_1,\dots,x_T)
+= \frac{1}{2}
+\sum_{t=1}^T
+w(x_t)^2
+\log\!\left(
+1+\frac{\sigma_{t-1}^2(x_t)}{\sigma^2}
+\right),
+\end{equation*}
+the contribution of a point depends both on its weight and on its position in the sequence through the posterior variance. As a result, the objective is order-dependent and thus cannot be expressed as a submodular set function.This prevents the direct application of the standard TAL framework.

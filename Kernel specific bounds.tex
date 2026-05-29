@@ -1,0 +1,899 @@
+
+\section{Kernel-specific bounds}
+
+The final step is to combine the split bound with existing information gain estimates for standard kernels.
+
+\subsection{Linear kernel}
+
+For the linear kernel
+\begin{equation*}
+k(x,x')
+=
+x^\top x',
+\qquad
+x\in\mathbb R^d,
+\end{equation*}
+the information gain admits a finite-rank bound. We again retain the geometric dependence explicitly, since in the split-bound setting the relevant radius may vary across regions.
+
+\subsubsection{Standard finite-rank bound}
+
+Starting from the log-determinant representation,
+\begin{equation*}
+\Gamma_T
+=
+\frac12
+\max_{x_1,\dots,x_T}
+\log\det
+\left(
+I+\sigma^{-2}X_T^\top X_T
+\right),
+\end{equation*}
+where
+\begin{equation*}
+X_T
+=
+\begin{bmatrix}
+x_1^\top \\
+\vdots \\
+x_T^\top
+\end{bmatrix},
+\end{equation*}
+we use the identity
+\begin{equation*}
+\det(I+A^\top A)
+=
+\det(I+AA^\top)
+\end{equation*}
+to obtain
+\begin{equation*}
+\Gamma_T
+=
+\frac12
+\max_{x_1,\dots,x_T}
+\log\det
+\left(
+I+\sigma^{-2}X_TX_T^\top
+\right).
+\end{equation*}
+
+Let the eigenvalues of $X_TX_T^\top$ be $\lambda_1,\dots,\lambda_d.$
+Assuming $\|x_t\|\leq 1,$
+we have
+\begin{equation*}
+\operatorname{tr}(X_TX_T^\top)
+=
+\sum_{t=1}^T
+\|x_t\|^2
+\leq
+T,
+\end{equation*}
+and therefore
+$
+\sum_{i=1}^d
+\lambda_i
+\leq
+T.$
+
+Now,
+\begin{equation*}
+\log\det
+\left(
+I+\sigma^{-2}X_TX_T^\top
+\right)
+=
+\sum_{i=1}^d
+\log(1+\sigma^{-2}\lambda_i).
+\end{equation*}
+Since $\log(1+x)$ is concave, the sum is maximised by spreading the mass uniformly,
+$
+\lambda_i
+=
+\frac{T}{d},$
+giving
+\begin{equation*}
+\Gamma_T
+\leq
+\frac{d}{2}
+\log
+\left(
+1+\frac{T}{d\sigma^2}
+\right).
+\end{equation*}
+\subsubsection{Radius-dependent refinement}
+
+The previous bound assumes
+\begin{equation*}
+\|x_t\|\leq 1.
+\end{equation*}
+To make the geometric dependence explicit, we instead abandon this normalisation and introduce the centred linear kernel
+\begin{equation*}
+k_c(x,x')
+=
+(x-c)^\top(x'-c).
+\end{equation*}
+
+\begin{proposition}[Radius-dependent linear kernel bound]
+Suppose a region $A$ lies inside a ball of radius $R$ centred at $c$, so that
+\begin{equation*}
+\|x-c\|\leq R
+\qquad
+\text{for all } x\in A.
+\end{equation*}
+Then
+\begin{equation*}
+\Gamma_T(R,\sigma^2)
+\leq
+\frac{d}{2}
+\log
+\left(
+1+\frac{TR^2}{d\sigma^2}
+\right).
+\end{equation*}
+In the weighted setting, replacing $\sigma^2$ by the effective noise level $\sigma^2/w^2$
+gives
+\begin{equation*}
+\Gamma_T(R,\sigma^2/w^2)
+\leq
+\frac{d}{2}
+\log
+\left(
+1+\frac{TR^2w^2}{d\sigma^2}
+\right).
+\end{equation*}
+\end{proposition}
+
+\subsubsection{Crude versus split bound}
+
+Applying Proposition~\ref{prop: splitbound} together with the radius-dependent estimate yields the following explicit two-region bound.
+
+\begin{corollary}[Linear split bound for concentric regions]
+Consider two concentric regions:
+\begin{itemize}
+    \item an inner ball $A$ of radius $R_1$ with weight $w_1$,
+    \item an outer annulus $B$ extending to radius $R_2$ with weight $w_2$,
+\end{itemize}
+with $w_1>w_2.$ Then
+\begin{equation*}
+B_{\mathrm{split}} =
+\max_{m=0,\dots,T}
+\Bigg\{
+\frac{d}{2}
+\log
+\left(
+1+\frac{mR_1^2w_1^2}{d\sigma^2}
+\right)
++
+\frac{d}{2}
+\log
+\left(
+1+\frac{(T-m)R_2^2w_2^2}{d\sigma^2}
+\right)
+\Bigg\},
+\end{equation*}
+whereas the corresponding crude bound is
+\begin{equation*}
+B_{\mathrm{crude}}
+=
+\frac{d}{2}
+\log
+\left(
+1+\frac{TR_2^2w_1^2}{d\sigma^2}
+\right).
+\end{equation*}
+\end{corollary}
+
+\begin{remark}[Geometric separation]
+The crude bound combines the largest weight and largest radius globally. By contrast, the split bound separates the geometric contributions of the different regions. Consequently, highly weighted regions contribute through the smaller radius $R_1$ rather than the global radius $R_2$.
+\end{remark}
+
+\subsubsection{Continuous relaxation and bound comparison}
+
+Write
+\begin{equation*}
+A
+=
+\frac{R_1^2w_1^2}{d\sigma^2},
+\qquad
+B
+=
+\frac{R_2^2w_2^2}{d\sigma^2}.
+\end{equation*}
+Then the linear split bound is
+\begin{equation*}
+B_{\mathrm{split}}
+=
+\max_{m=0,\dots,T}
+\frac{d}{2}
+\left[
+\log(1+Am)
++
+\log(1+B(T-m))
+\right].
+\end{equation*}
+
+\begin{lemma}[Continuous maximiser of the split allocation]
+Treating $m$ as continuous, the split bound is maximised at
+\begin{equation*}
+m^\star=
+\frac{T}{2}
++
+\frac{1}{2B}
+-
+\frac{1}{2A}
+=
+\frac{T}{2}
++
+\frac{d\sigma^2}{2R_2^2w_2^2}
+-
+\frac{d\sigma^2}{2R_1^2w_1^2}.
+\end{equation*}
+\end{lemma}
+
+\begin{proof}
+The derivative vanishes when
+\begin{equation*}
+\frac{A}{1+Am}
+=
+\frac{B}{1+B(T-m)}.
+\end{equation*}
+Solving for $m$ gives the stated expression.
+\end{proof}
+Thus the ``worst case'' integer allocation for the split bound is obtained by projecting $m^\star$ onto $[0,T]$ and rounding to the nearest integer. In particular, increasing $R_1^2w_1^2$ shifts the maximiser toward larger allocations in the high-weight region, while increasing $R_2^2w_2^2$ shifts it toward the outer region.
+
+\begin{corollary}[Comparison between crude and split bounds]
+The continuous relaxation satisfies
+\begin{align*}
+B_{\mathrm{split}}
+&\leq
+\frac{d}{2}
+\log
+\left(
+\left(
+1+\frac{AT}{2}+\frac{A}{2B}-\frac12
+\right)
+\left(
+1+\frac{BT}{2}+\frac{B}{2A}-\frac12
+\right)
+\right),
+\end{align*}
+and therefore
+\begin{align*}
+B_{\mathrm{crude}}-B_{\mathrm{split}}
+&\geq
+\frac{d}{2}
+\log
+\Bigg(
+\frac{
+1+\dfrac{TR_2^2w_1^2}{d\sigma^2}
+}{
+\left(
+\frac12
++
+\dfrac{TR_1^2w_1^2}{2d\sigma^2}
++
+\dfrac{R_1^2w_1^2}{2R_2^2w_2^2}
+\right)
+\left(
+\frac12
++
+\dfrac{TR_2^2w_2^2}{2d\sigma^2}
++
+\dfrac{R_2^2w_2^2}{2R_1^2w_1^2}
+\right)
+}
+\Bigg).
+\end{align*}
+\end{corollary}
+
+\begin{proof}
+Substituting $m^\star$ into the continuous relaxation gives
+\begin{align*}
+B_{\mathrm{split}}
+&\leq
+\frac{d}{2}
+\log
+\left(
+\left(
+1+A m^\star
+\right)
+\left(
+1+B(T-m^\star)
+\right)
+\right),
+\end{align*}
+which simplifies to the stated expression. Comparing with
+\begin{equation*}
+B_{\mathrm{crude}}
+=
+\frac{d}{2}
+\log(1+ATR_2^2/R_1^2)
+\end{equation*}
+gives the result.
+\end{proof}
+
+The comparison becomes particularly transparent in the regime where the high-weight region is geometrically concentrated.
+In particular, this shows that the crude bound is large because it combines the largest radius and largest weight. The split bound avoids this worst-case combination: the high weight $w_1$ is paired only with the smaller radius $R_1$, while the larger radius $R_2$ is paired with the smaller weight $w_2$. Thus the split bound can improve substantially when
+\begin{equation*}
+R_1^2
+\ll
+R_2^2
+\qquad
+\text{and}
+\qquad
+w_2^2
+\ll
+w_1^2,
+\end{equation*}
+that is, when the highly weighted region is geometrically small and the large outer region has much smaller weight.
+
+\subsection{Squared exponential kernel}
+
+We now instantiate Theorem~8 for the SE kernel, closely following the argument of Srinivas et al.~\cite{Srinivas2012}. However, unlike the original presentation, we retain the geometric and discretisation constants explicitly rather than absorbing them into asymptotic notation. This becomes important in the split-bound setting, where the information gain is evaluated on smaller regions of the domain. In particular, both the effective dimension and the volume-dependent discretisation constants may change from region to region, so the constants themselves can contribute meaningfully to improvements in the resulting bounds.
+
+\subsubsection{Instantiation of Theorem~8}
+
+For the SE kernel, the eigenvalue tail satisfies
+\begin{equation*}
+B_k(T_*)
+=
+\mathcal{O}
+\left(
+e^{-\beta}\beta^{d-1}
+\right),
+\qquad
+\beta
+=
+\alpha T_*^{1/d},
+\end{equation*}
+as shown by Seeger et al.~\cite{Seeger2008}. As in Srinivas et al., we choose $J=d$, for which the discretisation term becomes constant.
+
+Following the proof of Theorem~8, choose $T_*$ such that
+\begin{equation*}
+e^{-\beta}
+=
+(Tn_T)^{-1},
+\end{equation*}
+with
+\begin{equation*}
+n_T
+=
+C_4T^d\log T.
+\end{equation*}
+Equivalently,
+\begin{equation*}
+\beta
+=
+\log(Tn_T)
+=
+\log(C_4T^{d+1}\log T),
+\end{equation*}
+so that
+\begin{equation*}
+T_*
+=
+\left(
+\frac{
+\log(C_4T^{d+1}\log T)
+}{\alpha}
+\right)^d.
+\end{equation*}
+
+Substituting into Theorem~8 gives
+\begin{equation*}
+\Gamma_T
+\leq
+\max_{r=1,\dots,T}
+\left(
+T_*
+\log\!\left(
+\frac{rn_T}{\sigma^2}
+\right)
++
+\sigma^{-2}
+(1-r/T)
+\left(
+C_5\beta^{d-1}
++
+C_4\log T
+\right)
+\right).
+\end{equation*}
+As in Srinivas et al., the first term dominates, so the maximum is attained at $r=T$. Hence
+\begin{equation*}
+\Gamma_T
+\leq
+T_*
+\log\!\left(
+\frac{Tn_T}{\sigma^2}
+\right).
+\end{equation*}
+
+\subsubsection{Keeping constants $C_4$ and the dimension $d$ explicit}
+
+\begin{proposition}[SE information gain bound with explicit constants]
+For the Squared Exponential kernel,
+\begin{equation}
+\Gamma_T
+=
+\mathcal{O}
+\left(
+\left(
+(d+1)\log T+\log C_4
+\right)^d
+\left(
+(d+1)\log T+\log(C_4/\sigma^2)
+\right)
+\right).
+\label{eq: SEdecayrate}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Substituting the expression for $T_*$ gives
+\begin{equation*}
+\Gamma_T
+\leq
+\left(
+\frac{
+\log(C_4T^{d+1}\log T)
+}{\alpha}
+\right)^d
+\log\!\left(
+\frac{C_4T^{d+1}\log T}{\sigma^2}
+\right).
+\end{equation*}
+Suppressing the lower-order $\log\log T$ term yields
+\begin{equation*}
+\Gamma_T
+=
+\mathcal{O}
+\left(
+\left(
+(d+1)\log T+\log C_4
+\right)^d
+\left(
+(d+1)\log T+\log(C_4/\sigma^2)
+\right)
+\right),
+\end{equation*}
+proving \eqref{eq: SEdecayrate}.
+\end{proof}
+
+\begin{remark}[Effect of volume and intrinsic dimension]
+
+Expanding the first factor,
+\begin{equation*}
+\left(
+(d+1)\log T+\log C_4
+\right)^d
+=
+\sum_{k=0}^d
+\binom{d}{k}
+\left(
+(d+1)\log T
+\right)^{d-k}
+(\log C_4)^k,
+\end{equation*}
+so that
+\begin{equation*}
+\Gamma_T
+=
+\mathcal{O}
+\left(
+\sum_{k=0}^d
+\left(
+(d+1)\log T
+\right)^{d-k}
+(\log C_4)^k
+\left(
+(d+1)\log T+\log(C_4/\sigma^2)
+\right)
+\right).
+\end{equation*}
+
+Asymptotically, if $C_4$ and $d$ are fixed, the leading term remains the $\mathcal{O}\left((d+1)^{d+1}(\log T)^{d+1}\right)$
+rate. In particular, the volume dependence (entering through the geometric discretisation constant $C_4$) disappears entirely from the leading asymptotic exponent, surviving only as a lower-order logarithmic correction. This means that even large geometric changes affect the information gain much more mildly than changes in the effective dimension, which appears in the exponent of the logarithmic rate. 
+
+This mild geometric dependence is closely tied to the exceptionally fast spectral decay of the SE kernel. Since the eigenvalues decay exponentially, geometric quantities such as the volume constant $C_4$ survive only inside logarithms, whereas the intrinsic dimension $d$ still appears in the exponent of the overall rate. By contrast, for rougher kernels such as Mat\'ern kernels, where the eigenvalue decay is only polynomial, one expects the geometry and intrinsic dimension of the regions to have a substantially stronger effect on the resulting information gain bounds.
+
+However, for finite $T$, the constant-dependent and dimension-dependent terms can still be significant. This is especially relevant for the split bound, where different regions may have different effective geometric constants and possibly different effective dimensions.
+
+For example, suppose that in one regional bound the effective constant is large enough that
+\begin{equation*}
+\log C_4 \approx (\log T)^m,
+\qquad
+m\geq 1.
+\end{equation*}
+Substituting this into a typical term of the expanded bound gives
+\begin{align*}
+&\left(
+(d+1)\log T
+\right)^{d-k}
+(\log C_4)^k
+\left(
+(d+1)\log T+\log(C_4/\sigma^2)
+\right) \\
+& \qquad \qquad \approx
+(d+1)^{d-k}
+(\log T)^{d-k+mk}
+\left(
+(d+1)\log T+(\log T)^m-\log\sigma^2
+\right).
+\end{align*}
+Thus the exponent of $\log T$ in the first factor is
+\begin{equation*}
+d-k+mk
+=
+d+(m-1)k,
+\end{equation*}
+which increases with $k$ whenever $m>1$. Hence constant-dependent terms can be of order
+\begin{equation*}
+(d+1)^{d-k}
+(\log T)^{d+(m-1)k+m},
+\end{equation*}
+which may dominate the nominal leading term
+\begin{equation*}
+(d+1)^{d+1}(\log T)^{d+1}
+\end{equation*}
+for finite $T$, illustrating why these constants should not be hidden in the present setting. \end{remark}
+
+\subsubsection{Regional refinements of the information gain bound}
+
+For the SE kernel, the dimensional dependence is itself geometric. If the kernel is restricted to a lower-dimensional manifold $M\subseteq\mathbb R^D$, the restricted kernel agrees with the corresponding lower-dimensional SE kernel on $M$, since the collapsed coordinates do not contribute to the Euclidean distance. Consequently, one may expect the associated eigenvalue decay, and hence the information gain bound, to depend on the intrinsic dimension of the subset rather than the ambient dimension. This suggests that restricting the split bound to highly weighted lower-dimensional regions could yield substantially sharper rates.
+
+Furthermore, in the proof of Theorem~8, the discretisation size is chosen as
+\begin{equation*}
+n_T
+=
+C_4T^\tau\log T,
+\qquad
+C_4
+=
+2\mathcal{V}(D)(2\tau+1),
+\end{equation*}
+so $C_4$ depends directly on the geometry of the domain through its volume $\mathcal{V}(D)$. Consequently, when applying the split bound to smaller regions or lower-dimensional subsets, one may obtain improvements not only through the effective dimension but also through smaller volume-dependent discretisation constants.  We will illustrate this by plugging our constant-dependent rate \eqref{eq: SEdecayrate} into Proposition~\ref{prop: splitbound}.
+
+\begin{corollary}[SE split bound with regional geometry]
+Consider the two-region weighting
+\begin{equation*}
+w(x)
+=
+w_1\mathbf 1_A(x)
++
+w_2\mathbf 1_B(x),
+\qquad
+w_1>w_2.
+\end{equation*}
+Suppose the restrictions of the SE kernel to $A$ and $B$ have effective dimensions $d_A,d_B$ and discretisation constants
+\begin{equation*}
+C_{4,A}
+=
+2\mathcal V(A)(2\tau+1),
+\qquad
+C_{4,B}
+=
+2\mathcal V(B)(2\tau+1).
+\end{equation*}
+Then Proposition~\ref{prop: splitbound} together with the SE kernel estimate \eqref{eq: SEdecayrate} yields
+\begin{align*}
+\Gamma_T^w
+\leq
+\max_{m=0,\dots,T}
+\Bigg\{
+&
+\mathcal O
+\Big(
+\big(
+(d_A+1)\log m+\log C_{4,A}
+\big)^{d_A}
+\\
+&\qquad\qquad\qquad\qquad \times
+\big(
+(d_A+1)\log m
++
+\log(C_{4,A}w_1^2/\sigma^2)
+\big)
+\Big)
+\\
++
+&
+\mathcal O
+\Big(
+\big(
+(d_B+1)\log(T-m)+\log C_{4,B}
+\big)^{d_B}
+\\
+&\qquad\qquad\qquad\qquad \times
+\big(
+(d_B+1)\log(T-m)
++
+\log(C_{4,B}w_2^2/\sigma^2)
+\big)
+\Big)
+\Bigg\}.
+\end{align*}
+By comparison, the crude bound satisfies
+\begin{align*}
+\Gamma_T^w
+\leq
+\mathcal O
+\Big(
+\big(
+(D+1)\log T+\log C_{4,\mathcal X}
+\big)^D
+\\
+\times
+\big(
+(D+1)\log T
++
+\log(C_{4,\mathcal X}w_1^2/\sigma^2)
+\big)
+\Big),
+\end{align*}
+where $D$ is the ambient dimension and
+\begin{equation*}
+C_{4,\mathcal X}
+=
+2\mathcal V(\mathcal X)(2\tau+1).
+\end{equation*}
+\end{corollary}
+\paragraph{Benefit from smaller regional volume.}
+
+Suppose the highly weighted region $A$ occupies only a small subset of the full domain. Then
+\begin{equation*}
+\mathcal V(A)\ll \mathcal V(\mathcal X),
+\end{equation*}
+so the corresponding discretisation constant satisfies
+\begin{equation*}
+C_{4,A}\ll C_{4,\mathcal X}.
+\end{equation*}
+Since the volume dependence enters only logarithmically, the improvement is lower-order asymptotically. However, for finite $T$, sufficiently large differences in regional volume can still produce substantial reductions in the bound.
+
+\paragraph{Effect of lower effective dimension.}
+If the highly weighted region lies on a lower-dimensional subset, so that
+\begin{equation*}
+d_A<D,
+\end{equation*}
+then the improvement is substantially stronger, since the effective dimension appears in the exponent of the logarithmic rate itself:
+\begin{equation*}
+(\log T)^{D+1}
+\quad\longrightarrow\quad
+(\log T)^{d_A+1}.
+\end{equation*}
+
+Thus the split bound can exploit both smaller regional volume and lower intrinsic dimension, with the dimensional effect dominating asymptotically.
+
+\subsection{Mat\'ern kernel}
+
+We now instantiate Theorem~8 for the Mat\'ern kernel. As in Srinivas et al.~\cite{Srinivas2012}, the eigenvalues satisfy
+\begin{equation*}
+\lambda_s
+\leq
+c\,s^{-(2\nu+d)/d},
+\end{equation*}
+and hence the eigenvalue tail obeys
+\begin{equation*}
+B_k(T_*)
+=
+\mathcal{O}
+\left(
+T_*^{-2\nu/d}
+\right).
+\end{equation*}
+
+Following Srinivas et al., choose
+\begin{equation*}
+T_*
+=
+(Tn_T)^{d/(2\nu+d)}
+\left(
+\log(Tn_T)
+\right)^{-d/(2\nu+d)}.
+\end{equation*}
+Substituting $n_T=C_4T^\tau\log T$ gives
+\begin{equation*}
+T_*
+=
+\left(
+C_4T^{\tau+1}\log T
+\right)^{d/(2\nu+d)}
+\left(
+\log(C_4T^{\tau+1}\log T)
+\right)^{-d/(2\nu+d)}.
+\end{equation*}
+
+The dominant term in Theorem~8 is therefore
+\begin{equation*}
+T_*
+\log\left(
+\frac{Tn_T}{\sigma^2}
+\right),
+\end{equation*}
+which becomes
+\begin{equation}  \label{eq: dominantterm}
+\mathcal{O}
+\left(
+\left(
+C_4T^{\tau+1}\log T
+\right)^{d/(2\nu+d)}
+\left(
+\log(C_4T^{\tau+1}\log T)
+\right)^{-d/(2\nu+d)}
+\log\left(
+\frac{C_4T^{\tau+1}\log T}{\sigma^2}
+\right)
+\right).
+\end{equation}
+
+The remaining discretisation term in Theorem~8 is
+\begin{equation*}
+\mathcal{O}
+\left(
+T^{1-\tau/d}
+\right).
+\end{equation*}
+To balance this with the dominant term \eqref{eq: dominantterm}, we choose $\tau$ so that the polynomial powers of $T$ agree:
+\begin{equation*}
+\frac{(\tau+1)d}{2\nu+d}
+=
+1-\frac{\tau}{d}.
+\end{equation*}
+Solving gives
+\begin{equation}
+\tau
+=
+\frac{2\nu d}{2\nu+d(d+1)}
+\label{eq: materntao}
+\end{equation}
+ and with this choice,
+\begin{equation*}
+\frac{(\tau+1)d}{2\nu+d}
+=
+\frac{d(d+1)}{2\nu+d(d+1)}.
+\end{equation*}
+
+\subsubsection{Constant-dependent rate}
+\begin{proposition}[Mat\'ern information gain bound with explicit constants] \label{prop: maternexplicit}
+Let
+\begin{equation*}
+\eta
+=
+\frac{\nu}{2\nu+d(d+1)}.
+\end{equation*}
+Then, suppressing lower-order logarithmic factors while retaining the explicit dependence on $C_4$ and $\sigma^2$,
+\begin{equation*}
+\Gamma_T
+=
+\mathcal{O}
+\left(
+C_4^{d/(2\nu+d)}
+T^{1-2\eta}
+\log\!\left(
+\frac{C_4T^{\tau+1}}{\sigma^2}
+\right)
+\right).
+\end{equation*}
+\end{proposition}
+
+\begin{proof}
+Substituting \eqref{eq: materntao} into \eqref{eq: dominantterm} yields
+\begin{equation*}
+\Gamma_T
+=
+\mathcal{O}
+\left(
+C_4^{d/(2\nu+d)}
+T^{\frac{d(d+1)}{2\nu+d(d+1)}}
+(\log T)^{d/(2\nu+d)}
+\left(
+\log(C_4T^{\tau+1}\log T)
+\right)^{-d/(2\nu+d)}
+\log\!\left(
+\frac{C_4T^{\tau+1}\log T}{\sigma^2}
+\right)
+\right).
+\end{equation*}
+
+Since
+\begin{equation*}
+\frac{d(d+1)}{2\nu+d(d+1)}
+=
+1-2\eta,
+\end{equation*}
+and
+\begin{equation*}
+(\log T)^{d/(2\nu+d)}
+\left(
+\log(C_4T^{\tau+1}\log T)
+\right)^{-d/(2\nu+d)}
+=
+\Theta(1),
+\end{equation*}
+the claimed bound follows.
+\end{proof}
+
+\begin{remark}[Effect of volume and intrinsic dimension]
+Unlike the SE kernel, the Mat\'ern kernel exhibits only polynomial spectral decay. Consequently, the geometric discretisation constant $C_4$ enters as the polynomial factor
+\begin{equation*}
+C_4^{d/(2\nu+d)},
+\end{equation*}
+rather than only through logarithmic corrections. Similarly, the effective dimension appears directly in the polynomial exponent
+\begin{equation*}
+1-\frac{2\nu}{2\nu+d(d+1)}.
+\end{equation*}
+Thus reductions in volume and intrinsic dimension can affect the leading-order behaviour of the information gain bound.
+\end{remark}
+
+\subsubsection{Regional decomposition of the information gain}
+
+\begin{corollary}[Mat\'ern split bound with regional geometry]
+Consider the two-region weighting
+\begin{equation*}
+w(x)
+=
+w_1\mathbf 1_A(x)
++
+w_2\mathbf 1_B(x),
+\qquad
+w_1>w_2.
+\end{equation*}
+
+Suppose the restrictions of the Mat\'ern kernel to $A$ and $B$
+have effective dimensions $d_A,d_B$ and discretisation constants
+$C_{4,A},C_{4,B}$.
+
+Then applying Proposition~\ref{prop: maternexplicit} separately on each region with Proposition~\ref{prop: splitbound}
+gives
+\begin{equation*}
+\Gamma_T^w
+\le
+\max_{m=0,\ldots,T}
+\Big\{
+C_{4,A}^{d_A/(2\nu+d_A)}
+m^{1-2\eta_A}
+\log\!\Big(
+\frac{C_{4,A}m^{\tau_A+1}}{\sigma^2/w_1^2}
+\Big)
+\end{equation*}
+\begin{equation*}
++
+C_{4,B}^{d_B/(2\nu+d_B)}
+(T-m)^{1-2\eta_B}
+\log\!\Big(
+\frac{C_{4,B}(T-m)^{\tau_B+1}}
+{\sigma^2/w_2^2}
+\Big)
+\Big\},
+\end{equation*}
+where
+\begin{equation*}
+\eta_i
+=
+\frac{\nu}
+{2\nu+d_i(d_i+1)}
+\end{equation*}
+and 
+$$\tau_i=\frac{2 \nu d_i}{2 \nu+d_i\left(d_i+1\right)}.$$
+\end{corollary}
+
+
+\paragraph{Effect of regional geometry.}
+
+Since
+\begin{equation*}
+\Gamma_T
+\propto
+C_4^{d/(2\nu+d)},
+\end{equation*}
+a reduction in regional volume produces a direct polynomial reduction in the information gain bound. Unlike the SE case, this effect persists in the leading-order term.
+Furthermore, if
+\begin{equation*}
+d_A<D,
+\end{equation*}
+then
+\begin{equation*}
+T^{1-\frac{2\nu}{2\nu+D(D+1)}}
+\quad\longrightarrow\quad
+T^{1-\frac{2\nu}{2\nu+d_A(d_A+1)}}.
+\end{equation*}
+Thus a lower-dimensional highly weighted region can improve the asymptotic polynomial growth rate itself, rather than merely reducing logarithmic factors as in the SE case.

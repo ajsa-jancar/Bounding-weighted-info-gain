@@ -1,0 +1,180 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=0.8in]{geometry}
+
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{hyperref, float}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage[titletoc]{appendix}
+
+\usepackage{titlesec}
+
+\titleformat{\section}
+{\large\bfseries}
+{\thesection}
+{0.5em}
+{}
+
+\titleformat{\subsection}
+{\normalsize\bfseries}
+{\thesubsection}
+{0.5em}
+{}
+
+\titleformat{\subsubsection}
+{\normalsize\itshape}
+{\thesubsubsection}
+{0.5em}
+{}
+
+\titlespacing*{\section}
+{0pt}{1.2ex plus .2ex minus .2ex}{0.8ex}
+
+\titlespacing*{\subsection}
+{0pt}{1ex plus .2ex minus .2ex}{0.5ex}
+
+\titlespacing*{\subsubsection}
+{0pt}{0.8ex}{0.3ex}
+
+% Slightly tighter spacing
+\setlength{\parskip}{0.3em}
+\setlength{\parindent}{0pt}
+
+\setlength{\abovedisplayskip}{8pt}
+\setlength{\belowdisplayskip}{8pt}
+
+% Equations numbered by section
+\numberwithin{equation}{section}
+
+% Theorem numbering by section
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+% Make theorem text upright instead of italic
+\makeatletter
+\def\th@plain{
+  \normalfont
+  \itshape
+}
+\makeatother
+
+\newtheorem*{proposition*}{Proposition}
+
+% Simple outline boxes
+\usepackage{mdframed}
+
+\surroundwithmdframed[
+  linewidth=0.6pt,
+  roundcorner=2pt,
+  skipabove=10pt,
+  skipbelow=10pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt
+]{theorem}
+
+\surroundwithmdframed[
+  linewidth=0.6pt,
+  roundcorner=2pt,
+  skipabove=10pt,
+  skipbelow=10pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt
+]{proposition}
+
+\surroundwithmdframed[
+  linewidth=0.6pt,
+  roundcorner=2pt,
+  skipabove=10pt,
+  skipbelow=10pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt
+]{lemma}
+
+\surroundwithmdframed[
+  linewidth=0.6pt,
+  roundcorner=2pt,
+  skipabove=10pt,
+  skipbelow=10pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt
+]{corollary}
+
+\surroundwithmdframed[
+  linewidth=0.5pt,
+  roundcorner=2pt,
+  skipabove=10pt,
+  skipbelow=10pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt
+]{remark}
+
+\surroundwithmdframed[
+  linewidth=0.6pt,
+  roundcorner=2pt,
+  skipabove=10pt,
+  skipbelow=10pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt
+]{proposition*}
+
+\newcommand{\X}{\mathcal{X}}
+
+\title{Bounding weighted information gain -- first draft}
+\author{Ajsa Jancar}
+\date{May 2026}
+
+\begin{document}
+
+\maketitle
+
+\textcolor{red}{Missing: \begin{itemize}
+    \item References
+\end{itemize}}
+
+\newpage
+
+\tableofcontents
+
+\newpage 
+
+\input{Introduction}
+
+\input{Weighted information gain}
+
+\input{Kernel reweighting}
+
+\input{Piecewise weighted objectives}
+
+\input{Split bound}
+
+\input{Computational example}
+
+\input{Kernel specific bounds}
+
+\input{References}
+
+\input{Appendix}
+
+\end{document}

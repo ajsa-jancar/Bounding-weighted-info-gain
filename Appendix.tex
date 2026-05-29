@@ -1,0 +1,150 @@
+\clearpage
+\appendix
+
+\appendixpage
+\addappheadtotoc
+
+\section{Heuristic approximation argument for the continuum limit} \label{appendix:continuum}
+
+
+Let $w:\mathcal{X}\to \mathbb{R}_+$ be continuous and take a partition
+\begin{equation*}
+\mathcal{X}
+=
+\bigcup_{i=1}^{m_n}
+A_i^{(n)},
+\end{equation*}
+where the mesh size tends to zero as $n\to\infty$.
+
+Define the piecewise constant approximation
+\begin{equation*}
+w_n(x)
+=
+\sum_{i=1}^{m_n}
+c_i^{(n)}
+\mathbf{1}_{A_i^{(n)}}(x),
+\end{equation*}
+where either
+\begin{equation*}
+c_i^{(n)}
+=
+w(x_i^{(n)})
+\end{equation*}
+for some representative point
+\begin{equation*}
+x_i^{(n)}\in A_i^{(n)},
+\end{equation*}
+or alternatively
+\begin{equation*}
+c_i^{(n)}
+=
+\frac{1}{\mu(A_i^{(n)})}
+\int_{A_i^{(n)}} w(x)\,d\mu(x).
+\end{equation*}
+
+The corresponding regional transductive objective is
+\begin{equation*}
+F_{w_n}(S)
+=
+\sum_{i=1}^{m_n}
+c_i^{(n)}
+I(f_{A_i^{(n)}};y_S).
+\end{equation*}
+
+One would like to understand whether these objectives converge, in a suitable sense, to a continuum limit as the partition is refined.
+
+\paragraph{Local information density viewpoint}
+
+Define
+\begin{equation*}
+\phi(A_i,S)
+:=
+\frac{1}{\mu(A_i)}
+I(f_{A_i};y_S).
+\end{equation*}
+Then
+\begin{equation*}
+F_{w_n}(S)
+=
+\sum_i
+c_i^{(n)}
+\mu(A_i^{(n)})
+\phi(A_i^{(n)},S).
+\end{equation*}
+
+Suppose
+\begin{equation*}
+\phi(A_i^{(n)},S)
+\to
+\psi(x_i,S)
+\qquad
+\text{as }
+\mu(A_i^{(n)})\to 0
+\end{equation*}
+for some pointwise limit $\psi(x,S)$. Then
+\begin{equation*}
+F_{w_n}(S)
+\approx
+\sum_i
+c_i^{(n)}
+\mu(A_i^{(n)})
+\psi(x_i,S),
+\end{equation*}
+which formally converges to the Riemann integral
+\begin{equation*}
+\int
+w(x)\psi(x,S)\,d\mu(x).
+\end{equation*}
+
+\paragraph{Alternative averaged-field viewpoint}
+
+Define
+\begin{equation*}
+\bar f_A
+:=
+\frac{1}{\mu(A)}
+\int_A
+f(x)\,d\mu(x).
+\end{equation*}
+If
+\begin{equation*}
+\bar f_{A_i^{(n)}}
+\to
+f(x_i)
+\qquad
+\text{as }
+\mu(A_i^{(n)})\to 0,
+\end{equation*}
+then one might hope that
+\begin{equation*}
+I(\bar f_{A_i^{(n)}};y_S)
+\to
+I(f(x_i);y_S)
+\qquad
+\text{as }
+n\to\infty.
+\end{equation*}
+
+Consequently,
+\begin{equation*}
+F_{w_n}(S)
+=
+\sum_i
+c_i^{(n)}
+\mu(A_i^{(n)})
+I(\bar f_{A_i^{(n)}};y_S)
+\approx
+\sum_i
+c_i^{(n)}
+\mu(A_i^{(n)})
+I(f(x_i);y_S),
+\end{equation*}
+which again formally converges to
+\begin{equation*}
+\int
+w(x)\,
+I(f(x);y_S)\,
+d\mu(x).
+\end{equation*}
+
+At present, both of these approaches remain heuristic. The main difficulty is understanding the limiting behaviour of the transductive information terms as the regions shrink. In particular, it is not immediately clear under what regularity assumptions the mutual information associated with an entire region converges to a local pointwise quantity.
