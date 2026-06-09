@@ -14,12 +14,20 @@ where $\sigma_{t-1}^2(x_t)$ denotes the posterior variance before observing $x_t
 
 Motivated by the preceding discussion, we introduce the weighted sequential objective
 \begin{equation*}
-\Gamma_T^w
-= \frac{1}{2}
+F_w(x_1,\dots,x_T)
+=
+\frac{1}{2}
 \sum_{t=1}^T
 \log\!\left(
 1+\frac{w(x_t)^2\sigma_{t-1}^2(x_t)}{\sigma^2}
 \right).
+\end{equation*} 
+The corresponding maximum weighted information gain is
+\begin{equation*}
+\Gamma_T^w
+=
+\max_{x_1,\dots,x_T}
+F_w(x_1,\dots,x_T).
 \end{equation*}
 
 The weights act externally on the marginal gains while leaving the Gaussian process posterior unchanged. The motivation is that if $w$ is concentrated on a sufficiently small subset of the domain, then $\Gamma_T^w$ may admit sharper bounds than the ordinary information gain.
@@ -29,13 +37,13 @@ w(x)=c\,\mathbf{1}_A(x),
 \end{equation*}
 then
 $$
-\Gamma_T^w
+F_w(x_1,\dots,x_T)
 =
 \frac12
 \sum_{t:\,x_t\in A}
 \log\!\left(
 1+\frac{c^2\sigma_{t-1}^2(x_t)}{\sigma^2}
-\right).
+\right),
 $$
 which resembles a transductive information gain restricted to $A$.
 
@@ -56,16 +64,16 @@ $$
 w(x_t)\sigma_{t-1}(x_t)
 \leq
 \sqrt{
-\frac{2C'}{T}\gamma_T^w
+\frac{2C'}{T}\Gamma_T^w
 },
 $$
 where $C'$ is a constant depending only on $C$ and the noise variance,
 and
 $$
-\gamma_T^w
+\Gamma_T^w
 =
 \frac12
-\max_{A\subset\mathcal X, |A|\leq T}
+\max_{x_1,\dots,x_T}
 \sum_{t=1}^T
 \log\left(
 1+
@@ -120,7 +128,7 @@ w(x_t)^2\sigma_{t-1}^2(x_t)
 \right).
 $$
 
-By the definition of $\gamma_T^w$,
+By the definition of $\Gamma_T^w$,
 $$
 \sum_{t=1}^T
 \log\left(
@@ -132,7 +140,7 @@ w(x_t)^2\sigma_{t-1}^2(x_t)
 }
 \right)
 \leq
-2\gamma_T^w .
+2\Gamma_T^w .
 $$
 
 Combining both inequalities gives
@@ -140,7 +148,7 @@ $$
 \sum_{t=1}^T w(x_t)\sigma_{t-1}(x_t)
 \leq
 \sqrt{
-2TC'\sigma^2\gamma_T^w
+2TC'\sigma^2\Gamma_T^w
 }.
 $$
 
@@ -150,7 +158,7 @@ $$
 \sum_{t=1}^T w(x_t)\sigma_{t-1}(x_t)
 \leq
 \sqrt{
-\frac{2C'}{T}\gamma_T^w
+\frac{2C'}{T}\Gamma_T^w
 }.
 $$
 \end{proof}
@@ -212,3 +220,42 @@ w(x_t)^2\sigma_{t-1}^2(x_t)
 \right),
 $$
 the contribution of a point depends both on its weight and on its position in the sequence through the posterior variance. As a result, the objective is order-dependent and thus cannot be expressed as a submodular set function.This prevents the direct application of the standard TAL framework.
+
+\paragraph{Counterexample: loss of order invariance.}
+
+Although ordinary information gain can be written as an order-independent set function, this property fails after introducing weights.
+
+For the weighted objective, consider two points $x_1,x_2$. Querying them in
+one order gives
+\begin{align*}
+F_w(x_1,x_2)
+=
+\frac12\log\left(
+1+\frac{w(x_1)^2\sigma_0^2(x_1)}{\sigma^2}
+\right)
++
+\frac12\log\left(
+1+\frac{w(x_2)^2\sigma_{x_1}^2(x_2)}{\sigma^2}
+\right),
+\end{align*}
+whereas reversing the order gives
+\begin{align*}
+F_w(x_2,x_1)
+=
+\frac12\log\left(
+1+\frac{w(x_2)^2\sigma_0^2(x_2)}{\sigma^2}
+\right)
++
+\frac12\log\left(
+1+\frac{w(x_1)^2\sigma_{x_2}^2(x_1)}{\sigma^2}
+\right).
+\end{align*}
+
+In general,
+\begin{equation*}
+F_w(x_1,x_2)\neq F_w(x_2,x_1),
+\end{equation*}
+since the weights prevent the sequential variance reductions from
+telescoping into the usual log-determinant expression. Hence the weighted objective cannot be written as a function
+only of the selected set, and therefore does not inherit the usual
+submodularity guarantees.
