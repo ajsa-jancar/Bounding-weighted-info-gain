@@ -1,8 +1,24 @@
-\section{Split bound} \label{sec: splitbound}
+\section{Split bound} \label{sec:splitbound}
 
-Motivated by the regional decomposition ideas in sections \ref{sec: transobjective} and \ref{sec: indepregions}, we now return to the original sequential weighted information gain objective. Even without independence between regions, the same regional structure can still be exploited to derive an upper bound. The key observation is that posterior variance can only decrease when conditioning on additional observations. Consequently, the contribution from points inside a given region can be bounded by considering only the subsequence of points lying in that region.
+We now derive an upper bound on the weighted information gain
+$\Gamma_T^w$ by exploiting spatial structure in the weighting function.
+The regional transductive formulation discussed in
+Appendix~\ref{app:transobjective} provides intuition for why decomposing
+the domain into regions can be useful, while the independent-regions case
+in Appendix~\ref{app:indepregions} shows that such decompositions become
+exact when the Gaussian process does not couple different regions.
 
-This leads to a decomposition of the weighted objective into regional information gain terms with rescaled effective noise variances. Intuitively, larger weights correspond to smaller effective noise levels, and therefore to larger regional information gains.
+In the general setting, regions are correlated through the kernel and an
+exact decomposition is no longer possible. Nevertheless, a similar idea
+can be used to obtain an upper bound. The key observation is that posterior
+variance can only decrease when conditioning on additional observations.
+Consequently, the contribution from a region can be bounded by considering
+only the subsequence of observations lying inside that region.
+
+This leads to a decomposition of $\Gamma_T^w$ into regional information
+gain terms with rescaled effective noise variances. Intuitively, larger
+weights correspond to smaller effective noise levels, and therefore to
+larger regional information gains.
 
 \subsection{Statement of the split bound}
 
@@ -248,7 +264,7 @@ $
 \frac{\sigma^2}{c_i^2}.$
 \end{proof}
 
-Unlike the exact decomposition in the independent-region setting, this bound remains valid even when correlations between regions are present. In the independent-region setting of Section \ref{sec: indepregions}, the inequalities above become equalities, since observations outside a region no longer affect the posterior variances within it.
+Unlike the exact decomposition in the independent-region setting, this bound remains valid even when correlations between regions are present. In the independent-region setting of Appendix \ref{app:indepregions}, the inequalities above become equalities, since observations outside a region no longer affect the posterior variances within it.
 
 
 \subsection{Comparison with the crude bound}
@@ -282,3 +298,45 @@ B_{\mathrm{split}}
 The crude bound treats the whole domain as if it had the largest weight $a$, while the split bound only applies this effective noise level inside $A$ and uses the smaller effective weight in $B$.
 
 With this decomposition, we hope to exploit geometric differences between regions. In particular, if highly weighted regions occupy smaller subsets of the domain, the associated information gain terms may decay more rapidly.
+
+\subsection{Alternative weighting approaches}
+
+The split bound exploits spatial structure in $w$ while leaving the
+Gaussian process model unchanged. We contrast this with two alternative
+ways of incorporating task relevance, discussed in detail in
+Appendices~\ref{app:weighted_kernel} and
+\ref{app:regional_objective}.
+
+First, one could absorb the weights directly into the kernel by defining
+$$
+k_w(x,x')
+=
+w(x)w(x')k(x,x').
+$$
+For this modified kernel, the standard information gain machinery applies
+directly. However, as discussed in Appendix~\ref{app:weighted_kernel}, this
+changes the geometry of the Gaussian process prior rather than only changing
+the acquisition objective. In particular, the posterior variances under the
+weighted kernel do not generally satisfy
+$$
+\sigma_{t,w}^2(x)
+=
+w(x)^2\sigma_t^2(x).
+$$
+Therefore, kernel weighting corresponds to solving a different regression
+problem: the notion of similarity between points is changed by the relevance
+weights, rather than only changing which uncertainties are important.
+
+Second, one can define a regional objective by restricting the target
+information gain to a subset $A\subseteq\mathcal X$. In this formulation,
+the weighting is applied to the target region where uncertainty should be
+reduced, rather than to the locations chosen for sampling. Consequently,
+the objective remains a function of the sampled set and preserves the usual
+submodularity properties, allowing existing transductive information gain
+techniques to be applied (see Appendix~\ref{app:regional_objective}). However, this corresponds to a different notion of task relevance: the
+region of interest is specified through the prediction target itself. 
+
+The weighted acquisition objective studied here instead weights the marginal
+value of reducing uncertainty at each sampled location. This allows a
+graded notion of relevance across $\mathcal X$ while leaving the Gaussian
+process posterior unchanged.

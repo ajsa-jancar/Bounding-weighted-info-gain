@@ -1,7 +1,17 @@
 
 \section{Kernel-specific bounds}
 
-The final step is to combine the split bound with existing information gain estimates for standard kernels.
+The final step is to combine the split bound with existing kernel-specific
+information gain estimates. We primarily follow the analysis of
+Srinivas et al.~\cite{Srinivas2009}, who derive bounds on the maximum
+information gain for several commonly used kernels using spectral decay
+properties of the corresponding kernel operators. 
+
+Unlike the original asymptotic bounds, we keep geometric constants explicit,
+since in the split-bound setting the information gain terms are evaluated
+on different regions of the domain. As a result, quantities such as the
+effective dimension and volume-dependent constants may vary between
+regions and contribute to the improvement obtained by the split bound in the finite-horizon setting.
 
 \subsection{Linear kernel}
 
@@ -56,23 +66,20 @@ I+\sigma^{-2}X_TX_T^\top
 \right).
 \end{equation*}
 
-Let the eigenvalues of $X_TX_T^\top$ be $\lambda_1,\dots,\lambda_d.$
-Assuming $\|x_t\|\leq 1,$
-we have
-\begin{equation*}
-\operatorname{tr}(X_TX_T^\top)
+Let the eigenvalues of $X_T^\top X_T$ be $\lambda_1,\dots,\lambda_d$.
+Assuming $\|x_t\|\leq 1$, we have
+$$
+\operatorname{tr}(X_T^\top X_T)
 =
 \sum_{t=1}^T
 \|x_t\|^2
 \leq
 T,
-\end{equation*}
+$$
 and therefore
-$
-\sum_{i=1}^d
-\lambda_i
-\leq
-T.$
+$$
+\sum_{i=1}^d \lambda_i \leq T.
+$$
 
 Now,
 \begin{equation*}
@@ -99,6 +106,8 @@ giving
 1+\frac{T}{d\sigma^2}
 \right).
 \end{equation*}
+This is the standard finite-rank information gain bound; see, for example, \cite{Srinivas2009}.
+
 \subsubsection{Radius-dependent refinement}
 
 The previous bound assumes
@@ -190,11 +199,11 @@ The crude bound combines the largest weight and largest radius globally. By cont
 
 Write
 \begin{equation*}
-A
+a_0
 =
 \frac{R_1^2w_1^2}{d\sigma^2},
 \qquad
-B
+b_0
 =
 \frac{R_2^2w_2^2}{d\sigma^2}.
 \end{equation*}
@@ -205,9 +214,9 @@ B_{\mathrm{split}}
 \max_{m=0,\dots,T}
 \frac{d}{2}
 \left[
-\log(1+Am)
+\log(1+a_0m)
 +
-\log(1+B(T-m))
+\log(1+b_0(T-m))
 \right].
 \end{equation*}
 
@@ -217,9 +226,9 @@ Treating $m$ as continuous, the split bound is maximised at
 m^\star=
 \frac{T}{2}
 +
-\frac{1}{2B}
+\frac{1}{2b_0}
 -
-\frac{1}{2A}
+\frac{1}{2a_0}
 =
 \frac{T}{2}
 +
@@ -232,9 +241,9 @@ m^\star=
 \begin{proof}
 The derivative vanishes when
 \begin{equation*}
-\frac{A}{1+Am}
+\frac{a_0}{1+a_0m}
 =
-\frac{B}{1+B(T-m)}.
+\frac{b_0}{1+b_0(T-m)}.
 \end{equation*}
 Solving for $m$ gives the stated expression.
 \end{proof}
@@ -249,10 +258,10 @@ B_{\mathrm{split}}
 \log
 \left(
 \left(
-1+\frac{AT}{2}+\frac{A}{2B}-\frac12
+1+\frac{a_0T}{2}+\frac{a_0}{2b_0}-\frac12
 \right)
 \left(
-1+\frac{BT}{2}+\frac{B}{2A}-\frac12
+1+\frac{b_0T}{2}+\frac{b_0}{2a_0}-\frac12
 \right)
 \right),
 \end{align*}
@@ -294,10 +303,10 @@ B_{\mathrm{split}}
 \log
 \left(
 \left(
-1+A m^\star
+1+a_0 m^\star
 \right)
 \left(
-1+B(T-m^\star)
+1+b_0(T-m^\star)
 \right)
 \right),
 \end{align*}
@@ -306,7 +315,7 @@ which simplifies to the stated expression. Comparing with
 B_{\mathrm{crude}}
 =
 \frac{d}{2}
-\log(1+ATR_2^2/R_1^2)
+\log(1+a_0TR_2^2/R_1^2)
 \end{equation*}
 gives the result.
 \end{proof}
@@ -327,8 +336,7 @@ w_1^2,
 that is, when the highly weighted region is geometrically small and the large outer region has much smaller weight.
 
 \subsection{Squared exponential kernel}
-
-We now instantiate Theorem~8 for the SE kernel, closely following the argument of Srinivas et al.~\cite{Srinivas2012}. However, unlike the original presentation, we retain the geometric and discretisation constants explicitly rather than absorbing them into asymptotic notation. This becomes important in the split-bound setting, where the information gain is evaluated on smaller regions of the domain. In particular, both the effective dimension and the volume-dependent discretisation constants may change from region to region, so the constants themselves can contribute meaningfully to improvements in the resulting bounds.
+We now instantiate Theorem~8 of Srinivas et al.~\cite{Srinivas2009} for the SE kernel, closely following the argument that appears there. However, unlike the original presentation, we retain the geometric and discretisation constants explicitly rather than absorbing them into asymptotic notation. This becomes important in the split-bound setting, where the information gain is evaluated on smaller regions of the domain. In particular, both the effective dimension and the volume-dependent discretisation constants may change from region to region, so the constants themselves can contribute meaningfully to improvements in the resulting bounds.
 
 \subsubsection{Instantiation of Theorem~8}
 
@@ -665,7 +673,7 @@ Thus the split bound can exploit both smaller regional volume and lower intrinsi
 
 \subsection{Mat\'ern kernel}
 
-We now instantiate Theorem~8 for the Mat\'ern kernel. As in Srinivas et al.~\cite{Srinivas2012}, the eigenvalues satisfy
+We now instantiate Theorem~8 of Srinivas et al.~\cite{Srinivas2009} for the Mat\'ern kernel. As in \cite{Srinivas2009}, using the eigenvalue decay estimates of Seeger et al.~\cite{Seeger2008}, the eigenvalues satisfy
 \begin{equation*}
 \lambda_s
 \leq

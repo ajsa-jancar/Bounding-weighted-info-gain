@@ -11,6 +11,10 @@
 
 \usepackage{titlesec}
 
+\usepackage{chngcntr}
+
+\usepackage[numbers]{natbib}
+
 \titleformat{\section}
 {\large\bfseries}
 {\thesection}
@@ -45,20 +49,16 @@
 \setlength{\abovedisplayskip}{8pt}
 \setlength{\belowdisplayskip}{8pt}
 
-% Equations numbered by section
-\numberwithin{equation}{section}
-
-% Theorem numbering by section
-\newtheorem{theorem}{Theorem}[section]
+\newtheorem{theorem}{Theorem}
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
 
 \theoremstyle{definition}
 
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{example}[theorem]{Example}
-\newtheorem{remark}[theorem]{Remark}
 
 % Make theorem text upright instead of italic
 \makeatletter
@@ -150,7 +150,7 @@
 \maketitle
 
 \textcolor{red}{Missing: \begin{itemize}
-    \item References
+    \item Submodularity counterexample
 \end{itemize}}
 
 \newpage
@@ -163,9 +163,9 @@
 
 \input{Weighted information gain}
 
-\input{Kernel reweighting}
+% \input{Kernel reweighting}
 
-\input{Piecewise weighted objectives}
+% \input{Piecewise weighted objectives}
 
 \input{Split bound}
 
@@ -173,7 +173,10 @@
 
 \input{Kernel specific bounds}
 
-\input{References}
+\newpage
+
+\bibliographystyle{plainnat}
+\bibliography{references}
 
 \input{Appendix}
 

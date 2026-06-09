@@ -1,15 +1,15 @@
 \section{Introduction}
 
 \paragraph{Classical information gain and active learning.}
-In many active learning and Bayesian experimental design problems, the goal is not simply to collect observations, but to reduce uncertainty in a way that is useful for a downstream task. Classical information-gain objectives provide a useful measure of uncertainty reduction and have played a central role in Gaussian process active learning, Bayesian optimisation and experimental design. However, these objectives typically treat all parts of the domain uniformly. In many practical settings, uncertainty in some regions may be substantially more important than uncertainty elsewhere, suggesting that a more task-aware notion of information gain may be desirable.
+In many active learning and Bayesian experimental design problems, the goal is not simply to collect observations, but to reduce uncertainty in a way that is useful for a downstream task. Classical information-gain objectives provide a useful measure of uncertainty reduction and have played a central role in Gaussian process active learning, Bayesian optimisation and experimental design~\cite{Krause2008,Srinivas2009}. However, these objectives typically treat all parts of the domain uniformly. In many practical settings, uncertainty in some regions may be substantially more important than uncertainty elsewhere, suggesting that a more task-aware notion of information gain may be desirable.
 
 \paragraph{Transductive Active Learning and task-aware exploration.}
-Recent work on Transductive Active Learning (TAL) replaces the global objective with a target-dependent quantity
+Recent work on Transductive Active Learning (TAL)~\cite{Huebotter2025} replaces the global objective with a target-dependent notion of information gain,
 \begin{equation*}
 \max_{X \subseteq S,\ |X|\leq T}
-I(f_A;y_X),
+I(f_A;y_X).
 \end{equation*}
-which replaces the global objective with a target-dependent notion of information gain. Rather than measuring information acquired about the entire domain, TAL measures only the information gained about a specified target set. This allows exploration to focus on regions that are relevant to the downstream task and can lead to substantially sharper uncertainty bounds.
+Rather than measuring information acquired about the entire domain, TAL measures only the information gained about a specified target set. This allows exploration to focus on regions that are relevant to the downstream task and can lead to substantially sharper uncertainty bounds.
 
 Despite this improvement, TAL still imposes a binary notion of relevance: points either belong to the target set or they do not. All locations within the target set are treated equally.
 
@@ -31,7 +31,7 @@ Rather than specifying a binary target set, we seek a weighted notion of informa
 
 A natural approach is to introduce weights directly into the marginal information gains, giving more importance to uncertainty reduction in some regions of the domain than in others. However, this modification fundamentally changes the structure of the objective.
 
-For ordinary information gain, the objective can be written as a submodular set function, and the corresponding marginal gains satisfy a diminishing returns property. This structure underlies many of the theoretical guarantees in active learning and Bayesian experimental design, in particular allowing us to compare greedy selection objectives directly with maximum informatrion gain.
+For ordinary information gain, the objective can be written as a submodular set function, and the corresponding marginal gains satisfy a diminishing returns property~\cite{Krause2008}. This structure underlies many of the theoretical guarantees in active learning and Bayesian experimental design, in particular allowing us to compare greedy selection objectives directly with maximum information gain.
 
 In the weighted setting, the contribution of an observation depends both on its weight and on its position in the observation sequence through the posterior variance. Consequently, the objective becomes order-dependent and can no longer be represented as a submodular set function. This prevents the direct application of the standard information-gain and transductive active learning framework, motivating the search for an alternative analytical approach.
 
@@ -56,7 +56,12 @@ $
 Then the weighted information gain can be bounded by a sum of ordinary information-gain terms on the individual regions, each evaluated with an effective noise level proportional to $\sigma^2/c_i^2$.
 \end{proposition*}
 
-This result reduces the analysis of weighted information gain to the analysis of standard information gain on individual regions. Consequently, existing information-gain bounds for Gaussian process kernels can be applied separately on each region, allowing the effects of geometry, volume and intrinsic dimension to be captured explicitly. In particular, the resulting bounds reveal situations in which weighted exploration can be substantially more efficient than global exploration, especially when highly weighted regions occupy only a small subset of the domain or lie on lower-dimensional structures.
+This result reduces the analysis of weighted information gain to the
+analysis of standard information gain on individual regions. Consequently,
+existing information-gain bounds for Gaussian process kernels
+~\cite{Seeger2008,Srinivas2009}
+can be applied separately on each region, allowing the effects of geometry,
+volume and intrinsic dimension to be captured explicitly. In particular, the resulting bounds reveal situations in which weighted exploration can be substantially more efficient than global exploration, especially when highly weighted regions occupy only a small subset of the domain or lie on lower-dimensional structures.
 
 \begin{proposition*}[Informal consequence for Squared Exponential kernels]
 For Squared Exponential kernels, applying the split bound reveals that restricting attention to smaller regions primarily affects lower-order geometric constants. In particular, regional volume enters only logarithmically into the resulting information gain bounds. Consequently, the largest improvements arise when highly weighted regions have lower effective dimension than the ambient domain.

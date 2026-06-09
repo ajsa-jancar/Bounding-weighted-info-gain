@@ -1,0 +1,48 @@
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {paragraph}{Classical information gain and active learning.}{3}{section.1}%
+\contentsline {paragraph}{Transductive Active Learning and task-aware exploration.}{3}{section.1}%
+\contentsline {paragraph}{Motivating example.}{3}{section.1}%
+\contentsline {paragraph}{Research question.}{3}{section.1}%
+\contentsline {paragraph}{A difficulty: loss of submodularity.}{3}{section.1}%
+\contentsline {paragraph}{Main contributions.}{4}{section.1}%
+\contentsline {section}{\numberline {2}Weighted information gain}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Why bounding weighted information gain matters}{6}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Loss of submodularity for weighted objective}{6}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Split bound}{7}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Statement of the split bound}{7}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Proof in the two-region case}{7}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Extension to finitely many regions}{8}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Comparison with the crude bound}{9}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Alternative weighting approaches}{9}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Computational illustration}{10}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Localised high-weight region}{10}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}High-weight tube around a one-dimensional structure}{11}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Discussion}{12}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Kernel-specific bounds}{13}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Linear kernel}{13}{subsection.5.1}%
+\contentsline {subsubsection}{\numberline {5.1.1}Standard finite-rank bound}{13}{subsubsection.5.1.1}%
+\contentsline {subsubsection}{\numberline {5.1.2}Radius-dependent refinement}{14}{subsubsection.5.1.2}%
+\contentsline {subsubsection}{\numberline {5.1.3}Crude versus split bound}{14}{subsubsection.5.1.3}%
+\contentsline {subsubsection}{\numberline {5.1.4}Continuous relaxation and bound comparison}{14}{subsubsection.5.1.4}%
+\contentsline {subsection}{\numberline {5.2}Squared exponential kernel}{16}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Instantiation of Theorem~8}{16}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}Keeping constants $C_4$ and the dimension $d$ explicit}{16}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}Regional refinements of the information gain bound}{17}{subsubsection.5.2.3}%
+\contentsline {paragraph}{Benefit from smaller regional volume.}{18}{theorem.11}%
+\contentsline {paragraph}{Effect of lower effective dimension.}{18}{theorem.11}%
+\contentsline {subsection}{\numberline {5.3}Mat\'ern kernel}{19}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Constant-dependent rate}{19}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Regional decomposition of the information gain}{20}{subsubsection.5.3.2}%
+\contentsline {paragraph}{Effect of regional geometry.}{21}{theorem.14}%
+\contentsline {section}{Appendices}{23}{section*.1}%
+\contentsline {section}{\numberline {A}A first attempt: kernel reweighting}{23}{appendix.A}%
+\contentsline {section}{\numberline {B}Second attempt: piecewise weighted objectives}{23}{appendix.B}%
+\contentsline {subsection}{\numberline {B.1}A weighted sum of regional objectives}{23}{subsection.B.1}%
+\contentsline {subsection}{\numberline {B.2}Submodularity of the regional objective}{24}{subsection.B.2}%
+\contentsline {subsection}{\numberline {B.3}Difference from the weighted sequential objective}{24}{subsection.B.3}%
+\contentsline {subsection}{\numberline {B.4}Alternative: regional transductive objective}{25}{subsection.B.4}%
+\contentsline {subsection}{\numberline {B.5}Extending to continuous weighting}{25}{subsection.B.5}%
+\contentsline {subsection}{\numberline {B.6}Special case: independent regions}{26}{subsection.B.6}%
+\contentsline {subsection}{\numberline {B.7}Heuristic approximation argument for the continuum limit}{26}{subsection.B.7}%
+\contentsline {paragraph}{Local information density viewpoint}{27}{subsection.B.7}%
+\contentsline {paragraph}{Alternative averaged-field viewpoint}{27}{subsection.B.7}%

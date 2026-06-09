@@ -1,0 +1,31 @@
+\begin{thebibliography}{4}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Hübotter et~al.(2025)Hübotter, Sukhija, Treven, As, and Krause]{Huebotter2025}
+Jonas Hübotter, Bhavya Sukhija, Lenart Treven, Yarden As, and Andreas Krause.
+\newblock Transductive active learning: Theory and applications.
+\newblock 2025.
+\newblock URL \url{https://arxiv.org/abs/2402.15898}.
+
+\bibitem[Krause et~al.(2008)Krause, Singh, and Guestrin]{Krause2008}
+Andreas Krause, Ajit Singh, and Carlos Guestrin.
+\newblock Near-optimal sensor placements in gaussian processes: Theory, efficient algorithms and empirical studies.
+\newblock \emph{Journal of Machine Learning Research}, 9:\penalty0 235--284, 2008.
+
+\bibitem[Seeger et~al.(2008)Seeger, Kakade, and Foster]{Seeger2008}
+Matthias~W. Seeger, Sham~M. Kakade, and Dean~P. Foster.
+\newblock Information consistency of nonparametric gaussian process methods.
+\newblock \emph{IEEE Transactions on Information Theory}, 54\penalty0 (5):\penalty0 2376--2382, 2008.
+\newblock \doi{10.1109/TIT.2007.915707}.
+
+\bibitem[Srinivas et~al.(2009)Srinivas, Krause, Kakade, and Seeger]{Srinivas2009}
+Niranjan Srinivas, Andreas Krause, Sham~M. Kakade, and Matthias~W. Seeger.
+\newblock Gaussian process bandits without regret: An experimental design approach.
+\newblock \emph{CoRR}, abs/0912.3995, 2009.
+\newblock URL \url{http://arxiv.org/abs/0912.3995}.
+
+\end{thebibliography}

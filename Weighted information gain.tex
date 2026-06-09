@@ -17,9 +17,8 @@ Motivated by the preceding discussion, we introduce the weighted sequential obje
 \Gamma_T^w
 = \frac{1}{2}
 \sum_{t=1}^T
-w(x_t)^2
 \log\!\left(
-1+\frac{\sigma_{t-1}^2(x_t)}{\sigma^2}
+1+\frac{w(x_t)^2\sigma_{t-1}^2(x_t)}{\sigma^2}
 \right).
 \end{equation*}
 
@@ -29,15 +28,156 @@ For example, if
 w(x)=c\,\mathbf{1}_A(x),
 \end{equation*}
 then
-\begin{equation*}
+$$
 \Gamma_T^w
-= \frac{c^2}{2}
+=
+\frac12
 \sum_{t:\,x_t\in A}
 \log\!\left(
-1+\frac{\sigma_{t-1}^2(x_t)}{\sigma^2}
-\right),
-\end{equation*}
+1+\frac{c^2\sigma_{t-1}^2(x_t)}{\sigma^2}
+\right).
+$$
 which resembles a transductive information gain restricted to $A$.
+
+The relevance of this weighted information gain is that it directly
+controls the quantity optimized by a natural weighted uncertainty
+sampling rule. In particular, bounding $\Gamma_T^w$ implies that the
+average weighted posterior uncertainty decreases over time.
+
+\begin{lemma}[Weighted uncertainty sampling]
+Let the sampling rule be given by
+$$
+x_t \in \arg\max_{x\in\mathcal X} w(x)\sigma_{t-1}(x),
+$$
+where $w:\mathcal X\rightarrow\mathbb R_{\geq 0}$. Assume that
+$w(x)^2\sigma_{t-1}^2(x)\leq C$ for all $x,t$. Then
+$$
+\frac{1}{T}\sum_{t=1}^T 
+w(x_t)\sigma_{t-1}(x_t)
+\leq
+\sqrt{
+\frac{2C'}{T}\gamma_T^w
+},
+$$
+where $C'$ is a constant depending only on $C$ and the noise variance,
+and
+$$
+\gamma_T^w
+=
+\frac12
+\max_{A\subset\mathcal X, |A|\leq T}
+\sum_{t=1}^T
+\log\left(
+1+
+\frac{w(x_t)^2\sigma_{t-1}^2(x_t)}
+{\sigma^2}
+\right)
+$$
+is the weighted information gain.
+\end{lemma}
+
+\begin{proof}
+By Cauchy--Schwarz,
+$$
+\sum_{t=1}^T w(x_t)\sigma_{t-1}(x_t)
+\leq
+\sqrt{
+T
+\sum_{t=1}^T
+w(x_t)^2\sigma_{t-1}^2(x_t)
+}.
+$$
+
+Let
+$$
+u_t=
+\frac{
+w(x_t)^2\sigma_{t-1}^2(x_t)
+}{
+\sigma^2
+}.
+$$
+
+Since $u_t$ is bounded, there exists a constant $C'$ such that
+$$
+u_t\leq C'\log(1+u_t).
+$$
+
+Therefore,
+$$
+\sum_{t=1}^T
+w(x_t)^2\sigma_{t-1}^2(x_t)
+\leq
+C'\sigma^2
+\sum_{t=1}^T
+\log\left(
+1+
+\frac{
+w(x_t)^2\sigma_{t-1}^2(x_t)
+}{
+\sigma^2
+}
+\right).
+$$
+
+By the definition of $\gamma_T^w$,
+$$
+\sum_{t=1}^T
+\log\left(
+1+
+\frac{
+w(x_t)^2\sigma_{t-1}^2(x_t)
+}{
+\sigma^2
+}
+\right)
+\leq
+2\gamma_T^w .
+$$
+
+Combining both inequalities gives
+$$
+\sum_{t=1}^T w(x_t)\sigma_{t-1}(x_t)
+\leq
+\sqrt{
+2TC'\sigma^2\gamma_T^w
+}.
+$$
+
+Absorbing $\sigma^2$ into the constant and dividing by $T$ gives
+$$
+\frac{1}{T}
+\sum_{t=1}^T w(x_t)\sigma_{t-1}(x_t)
+\leq
+\sqrt{
+\frac{2C'}{T}\gamma_T^w
+}.
+$$
+\end{proof}
+
+\subsection{Why bounding weighted information gain matters}
+
+The previous lemma shows that $\Gamma_T^w$ controls the convergence of
+weighted uncertainty sampling. In particular, regions with large weights
+require small posterior uncertainty, while regions with negligible weights
+do not significantly contribute to the objective.
+
+However, this result alone does not provide an improved rate: it reduces the
+problem to obtaining sharp bounds on $\Gamma_T^w$. A naive comparison gives
+only
+$$
+\Gamma_T^w
+\leq
+\Gamma_T\left(k,\frac{\sigma^2}{\|w\|_\infty^2}\right),
+$$
+which treats the entire domain as if it had the maximum possible weight.
+This loses the localization effect introduced by $w$.
+
+The main question is therefore whether the structure of the weighting
+function can be exploited to obtain bounds depending only on the effective
+weighted region rather than the full domain. The following sections study
+when such improvements are possible and why existing information-gain
+arguments cannot be applied directly.
 
 \subsection{Loss of submodularity for weighted objective}
 
@@ -57,13 +197,18 @@ F(S\cup\{x\})-F(S)
 which satisfy diminishing returns. This submodularity is what allows standard greedy approximation arguments.
 
 The weighted objective does not inherit this structure. Writing formally
-\begin{equation*}
+$$
 F_w(x_1,\dots,x_T)
-= \frac{1}{2}
+=
+\frac12
 \sum_{t=1}^T
-w(x_t)^2
-\log\!\left(
-1+\frac{\sigma_{t-1}^2(x_t)}{\sigma^2}
+\log\left(
+1+
+\frac{
+w(x_t)^2\sigma_{t-1}^2(x_t)
+}{
+\sigma^2
+}
 \right),
-\end{equation*}
+$$
 the contribution of a point depends both on its weight and on its position in the sequence through the posterior variance. As a result, the objective is order-dependent and thus cannot be expressed as a submodular set function.This prevents the direct application of the standard TAL framework.
