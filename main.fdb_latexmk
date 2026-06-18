@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1781018684.01995 "main.aux" "main.bbl" "main" 1781019329.82805 0
+["bibtex main"] 1781801408.0278 "main.aux" "main.bbl" "main" 1781802131.20011 0
   "./references.bib" 1781018097.10389 1634 9ad5bd63d54165caadff09ee6fd5dea4 ""
   "/usr/local/texlive/2024/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1233624470 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "main.aux" 1781019329.57329 10134 68ed04c1eb8551130d7a28a36d3be74c "pdflatex"
+  "main.aux" 1781802130.95379 10134 d26170f10d24406ea9f0244a9c5e82fd "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1781019328.39905 "/Users/ajsajancar/Documents/Bounding-weighted-info-gain/main.tex" "main.pdf" "main" 1781019329.82819 0
+["pdflatex"] 1781802129.81194 "/Users/ajsajancar/Documents/Bounding-weighted-info-gain/main.tex" "main.pdf" "main" 1781802131.20023 0
   "/Users/ajsajancar/Documents/Bounding-weighted-info-gain/main.tex" 1781018523.72447 3107 00433c83749f9e9c126f9b118451241f ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -145,19 +145,19 @@
   "/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1738069904.75523 5467645 128b85b7cde5f5edc5cb7f1dd7ff8736 ""
   "/usr/local/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1738069878 8221424 bab959cddb9931d120d0fc198470faa4 ""
   "/usr/local/texlive/2024/texmf.cnf" 1710266656 577 e590dabc9e28c5b61546e15f63eebcdf ""
-  "Appendix.tex" 1781019328.24789 13381 3f4e24cc15d5459f5320590cac1c10f5 ""
+  "Appendix.tex" 1781019468.12908 13381 3f4e24cc15d5459f5320590cac1c10f5 ""
   "Computational example.tex" 1780098805.30268 5911 9a7e7038274980bcfd936fc73838e9ea ""
-  "Introduction.tex" 1781018280.34154 7031 26308322fc5732ffbb418b7d599fcd33 ""
+  "Introduction.tex" 1781801926.37185 7101 5ac7e9098bc24056db602dc90716c36a ""
   "Kernel specific bounds.tex" 1781017692.30388 21543 bc6d2aa13db08ceac26b053581591164 ""
-  "Split bound.tex" 1781015836.83732 9894 3e88cd7a594e972a0dc3beace01caee8 ""
-  "Weighted information gain.tex" 1781019205.38016 6007 130d52b110fedf246e088fd32349f405 ""
+  "Split bound.tex" 1781801907.18834 9975 8dbde05c7d72b7e5cee8e2691e0652ee ""
+  "Weighted information gain.tex" 1781802129.66762 6070 7d762ff9b20c506c9f5cbadc11b4e0f2 ""
   "line1.png" 1780098805.30421 310633 d0c92e3576b59e67aa61443d6fb9f91c ""
   "line2.png" 1780098805.30486 41416 c65acf34f3c08c450784f3bc7b536b9a ""
-  "main.aux" 1781019329.57329 10134 68ed04c1eb8551130d7a28a36d3be74c "pdflatex"
-  "main.bbl" 1781018684.10749 1581 6c9537697add31c600c7683c9d8ba392 "bibtex main"
-  "main.out" 1781019329.57426 8337 8a52c1260d4eeddcd0d1a3d53e1acdea "pdflatex"
+  "main.aux" 1781802130.95379 10134 d26170f10d24406ea9f0244a9c5e82fd "pdflatex"
+  "main.bbl" 1781801408.11162 1581 6c9537697add31c600c7683c9d8ba392 "bibtex main"
+  "main.out" 1781802130.95477 8337 8a52c1260d4eeddcd0d1a3d53e1acdea "pdflatex"
   "main.tex" 1781018523.72447 3107 00433c83749f9e9c126f9b118451241f ""
-  "main.toc" 1781019329.5745 4596 3035e7f13664e9b6a15f70947a322150 "pdflatex"
+  "main.toc" 1781802130.95496 4596 967fcfcc12d02502fdcb2ea0d485e0f7 "pdflatex"
   "point1.png" 1780098805.307 1014618 b93565f258257892d7adeeebefdb9024 ""
   "point2.png" 1780098805.308 203176 0b056cd1950619a3f33eb4fe1b2ae0ee ""
   (generated)

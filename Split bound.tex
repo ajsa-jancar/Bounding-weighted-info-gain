@@ -327,14 +327,21 @@ Therefore, kernel weighting corresponds to solving a different regression
 problem: the notion of similarity between points is changed by the relevance
 weights, rather than only changing which uncertainties are important.
 
-Second, one can define a regional objective by restricting the target
-information gain to a subset $A\subseteq\mathcal X$. In this formulation,
-the weighting is applied to the target region where uncertainty should be
-reduced, rather than to the locations chosen for sampling. Consequently,
-the objective remains a function of the sampled set and preserves the usual
-submodularity properties, allowing existing transductive information gain
-techniques to be applied (see Appendix~\ref{app:regional_objective}). However, this corresponds to a different notion of task relevance: the
-region of interest is specified through the prediction target itself. 
+Second, one can define a regional objective by applying weights to
+transductive information gains over different target regions. Thus, the weighting is applied to the target region where uncertainty should be
+reduced, rather than to the locations chosen for sampling. Given a
+partition $\{A_i\}_{i=1}^m$ of set $S$], this gives
+\[
+F_w(S)
+=
+\sum_{i=1}^m c_i I(f_{A_i};y_S).
+\]
+Each term is submodular  and since nonnegative
+sums of submodular functions remain submodular, the objective preserves
+the usual greedy guarantees (see Appendix~\ref{app:regional_objective}).
+However, this represents a different notion of task relevance: the
+weights act on the prediction targets rather than directly on the
+sequential variance reductions. 
 
 The weighted acquisition objective studied here instead weights the marginal
 value of reducing uncertainty at each sampled location. This allows a

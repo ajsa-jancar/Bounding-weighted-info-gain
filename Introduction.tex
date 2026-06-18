@@ -64,7 +64,9 @@ can be applied separately on each region, allowing the effects of geometry,
 volume and intrinsic dimension to be captured explicitly. In particular, the resulting bounds reveal situations in which weighted exploration can be substantially more efficient than global exploration, especially when highly weighted regions occupy only a small subset of the domain or lie on lower-dimensional structures.
 
 \begin{proposition*}[Informal consequence for Squared Exponential kernels]
-For Squared Exponential kernels, applying the split bound reveals that restricting attention to smaller regions primarily affects lower-order geometric constants. In particular, regional volume enters only logarithmically into the resulting information gain bounds. Consequently, the largest improvements arise when highly weighted regions have lower effective dimension than the ambient domain.
+For Squared Exponential kernels, applying the split bound reveals that the
+largest improvements arise when highly weighted regions have lower effective dimension than the ambient domain since the dimension affects both the multiplicative constants and the exponent of the logarithmic information-gain rate. Reducing the size of the weighted region also improves the bound, but only through lower-order geometric constants, as regional volume enters
+logarithmically.
 \end{proposition*}
 
 \begin{proposition*}[Informal consequence for Mat\'ern kernels]
